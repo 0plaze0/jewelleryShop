@@ -1,7 +1,16 @@
-import "./App.css";
+import { Route, Routes } from "react-router-dom";
+
+import { Home } from "./pages";
 
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<h1>404 not found</h1>} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
