@@ -1,11 +1,42 @@
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 import { useState } from "react";
 
 const Upload = () => {
   const [photo, setPhoto] = useState<File | null>();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!photo) {
+      console.error("No file selected");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", photo);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("File uploaded successfully:", response.data);
+      // Handle success (e.g., show a success message, clear the file input)
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="col-span-full">
           <label
             htmlFor="cover-photo"
